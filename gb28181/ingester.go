@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2022 Winlin
+// # Copyright (c) 2022 Winlin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in
@@ -22,16 +22,17 @@ package gb28181
 
 import (
 	"context"
-	"github.com/ghettovoice/gosip/sip"
-	"github.com/ossrs/go-oryx-lib/errors"
-	"github.com/ossrs/go-oryx-lib/logger"
-	"github.com/pion/webrtc/v3/pkg/media/h264reader"
 	"io"
 	"os"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/ghettovoice/gosip/sip"
+	"github.com/ossrs/go-oryx-lib/errors"
+	"github.com/ossrs/go-oryx-lib/logger"
+	"github.com/pion/webrtc/v3/pkg/media/h264reader"
 )
 
 type GBSessionConfig struct {
@@ -305,7 +306,9 @@ func (v *PSIngester) Ingest(ctx context.Context) error {
 
 	// Scale the video samples to 1024 according to AAC, that is 1 video frame means 1024 samples.
 	audioSampleRate := audio.codec.ASC().SampleRate.ToHz()
-	videoSampleRate := 1024 * 1000 / v.conf.psConfig.fps
+	// TODO, FIXME, qiniu miku
+	// videoSampleRate := 1024 * 1000 / v.conf.psConfig.fps
+	videoSampleRate := 1024 * v.conf.psConfig.fps
 	logger.Tf(ctx, "PS: Media stream, tbn=%v, ssrc=%v, pt=%v, Video(%v, fps=%v, rate=%v), Audio(%v, rate=%v, channels=%v)",
 		v.conf.clockRate, v.conf.ssrc, v.conf.payloadType, v.conf.psConfig.video, v.conf.psConfig.fps, videoSampleRate,
 		v.conf.psConfig.audio, audioSampleRate, audio.codec.ASC().Channels)

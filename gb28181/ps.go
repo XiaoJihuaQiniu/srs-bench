@@ -1,6 +1,6 @@
 // The MIT License (MIT)
 //
-// Copyright (c) 2022 Winlin
+// # Copyright (c) 2022 Winlin
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy of
 // this software and associated documentation files (the "Software"), to deal in
@@ -23,14 +23,15 @@ package gb28181
 import (
 	"context"
 	"fmt"
-	"github.com/ossrs/go-oryx-lib/errors"
-	"github.com/pion/rtp"
-	"github.com/yapingcat/gomedia/codec"
-	"github.com/yapingcat/gomedia/mpeg2"
 	"math"
 	"net"
 	"net/url"
 	"strings"
+
+	"github.com/ossrs/go-oryx-lib/errors"
+	"github.com/pion/rtp"
+	"github.com/yapingcat/gomedia/codec"
+	"github.com/yapingcat/gomedia/mpeg2"
 )
 
 type PSConfig struct {
@@ -225,8 +226,10 @@ func (v *PSPackStream) WriteProgramStreamMap(dts uint64) error {
 			// SrsTsPESStreamIdAudioCommon = 0xc0
 			mpeg2.NewElementary_stream_elem(uint8(mpeg2.PS_STREAM_AAC), 0xc0),
 		},
+		Current_next_indicator: 1, // TODO, FIXME, qiniu miku
 	}
 
+	fmt.Printf("++++ psm.Current_next_indicator:%d\n", psm.Current_next_indicator)
 	psm.Encode(w)
 
 	v.packets = append(v.packets, NewPSPacket(PSPacketTypeProgramStramMap, w.Bits(), dts, v.pt))
